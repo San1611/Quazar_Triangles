@@ -13,11 +13,10 @@ export default function TriangleCanvas({ onMetrics }) {
   const width = 640, height = 420, pad = 12;
 
   const area = heronArea(A, B, C);
-  const { a, b, c } = triangleSides(A, B, C);
-  const base = c; 
+  const { a, b, c } = triangleSides(A, B, C); // a=|BC|, b=|AC|, c=|AB|
+  const base = c;
   const h = heightGivenBase(base, area);
 
-  // ✅ Lift metrics after render (not during render)
   useEffect(() => {
     onMetrics?.({ area, sides: { a, b, c }, height: h });
   }, [area, a, b, c, h, onMetrics]);
@@ -58,8 +57,11 @@ export default function TriangleCanvas({ onMetrics }) {
     </g>
   );
 
+  // helper: midpoint of two points
+  const mid = (p1, p2) => [(p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2];
+
   return (
-    <div className="w-full">
+    <div className="max-w-5xl mx-auto">
       <svg
         ref={svgRef}
         width={width}
@@ -69,11 +71,14 @@ export default function TriangleCanvas({ onMetrics }) {
         onMouseUp={endDrag}
         onMouseLeave={endDrag}
       >
+        {/* Triangle fill */}
         <polygon
           points={`${A[0]},${A[1]} ${B[0]},${B[1]} ${C[0]},${C[1]}`}
           className="fill-pink-200 stroke-pink-500"
           strokeWidth="2"
         />
+
+        {/* Base AB */}
         <line
           x1={A[0]}
           y1={A[1]}
@@ -82,12 +87,37 @@ export default function TriangleCanvas({ onMetrics }) {
           className="stroke-purple-600"
           strokeWidth="3"
         />
+
+        {/* Side lengths as labels */}
+        <text
+          x={mid(B, C)[0]}
+          y={mid(B, C)[1]}
+          className="fill-gray-800 text-[12px]"
+        >
+          {a.toFixed(1)}
+        </text>
+        <text
+          x={mid(A, C)[0]}
+          y={mid(A, C)[1]}
+          className="fill-gray-800 text-[12px]"
+        >
+          {b.toFixed(1)}
+        </text>
+        <text
+          x={mid(A, B)[0]}
+          y={mid(A, B)[1]}
+          className="fill-gray-800 text-[12px]"
+        >
+          {c.toFixed(1)}
+        </text>
+
+        {/* Vertices */}
         {circle(A, "A", "fill-rose-500")}
         {circle(B, "B", "fill-emerald-500")}
         {circle(C, "C", "fill-sky-500")}
       </svg>
       <p className="text-sm text-gray-600 mt-2">
-        Drag A, B, C. Base is AB. Area updates live; height is computed from base & area.
+        Drag A, B, C. Base is AB. Area updates live; side lengths are shown on edges.
       </p>
     </div>
   );
