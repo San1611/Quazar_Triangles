@@ -11,8 +11,9 @@ Currently, two official plugins are available:
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
 
+##DOCUMENTATION
 
-Quazar Triangles
+## Quazar Triangles
 
 An interactive React + Vite web app to visualize triangles, calculate area using Heron’s formula, and dynamically measure side lengths & height.
 
@@ -20,7 +21,7 @@ An interactive React + Vite web app to visualize triangles, calculate area using
 
 Live app: https://quazar-triangles.vercel.app
 
-Source code: https://github.com/<your-username>/quazar-triangles
+Source code:  https://github.com/San1611/Quazar_Triangles
 
 🛠️ Tech Stack
 
